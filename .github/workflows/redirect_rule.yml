@@ -1,0 +1,42 @@
+name: Redirect Rule Maker
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v3
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: install python dependencies
+        run: |
+          pip install -r ${{ github.workspace }}/requirements.txt
+
+      - name: Generate Config
+        run : |
+          python -u ${{ github.workspace }}/main.py
+
+      - name: Commit Output
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.TOKEN }}
+        with:
+          source-directory: ./output/
+          destination-github-username: 'dalao-org'
+          destination-repository-name: 'oneinstack-redirect-mirror'
+          user-email: i@irain.in
+          target-branch: main
