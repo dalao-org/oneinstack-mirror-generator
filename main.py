@@ -1,4 +1,4 @@
-from utils import curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql
+from utils import curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python
 import json
 import os
 
@@ -17,11 +17,12 @@ def main():
     resource_list += acme_sh.make_cache()
     resource_list += nghttp2.make_cache()
     resource_list += postgresql.make_cache()
+    resource_list += python.make_cache()
 
-    with open(".output/resources.json", "w") as f:
+    with open(r"./output/resources.json", "w+") as f:
         f.write(json.dumps(resource_list, indent=4))
 
-    redirect_rules_file = open("./output/_redirect", "w")
+    redirect_rules_file = open(r"./output/_redirects", "w+")
     for resource in resource_list:
         if "file_name" in resource.keys():
             rule = f"/src/{resource['file_name']} {resource["url"]} 301"

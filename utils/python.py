@@ -45,7 +45,3 @@ def make_cache() -> list:
                         "pgp": f"https://www.python.org/ftp/python/{version}/Python-{version}.tgz.asc",
                     })
     return final_version_list
-
-
-
-print(make_cache())
