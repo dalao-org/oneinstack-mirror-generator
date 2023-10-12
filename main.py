@@ -1,4 +1,6 @@
-from utils import curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python
+from utils import (curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python,
+                   httpd, apr, imagemagick, openresty, memcached, lua_nginx_module)
+from utils.php_plugins import (swoole, mongodb_php, mamcache, imagick, gmagick, apcu)
 import json
 import os
 
@@ -18,6 +20,18 @@ def main():
     resource_list += nghttp2.make_cache()
     resource_list += postgresql.make_cache()
     resource_list += python.make_cache()
+    resource_list += httpd.make_cache()
+    resource_list += apr.make_cache()
+    resource_list += imagemagick.make_cache()
+    resource_list += openresty.make_cache()
+    resource_list += memcached.make_cache()
+    resource_list += lua_nginx_module.make_cache()
+    resource_list += swoole.make_cache()
+    resource_list += mongodb_php.make_cache()
+    resource_list += mamcache.make_cache()
+    resource_list += imagick.make_cache()
+    resource_list += gmagick.make_cache()
+    resource_list += apcu.make_cache()
 
     with open(r"./output/resources.json", "w+") as f:
         f.write(json.dumps(resource_list, indent=4))
