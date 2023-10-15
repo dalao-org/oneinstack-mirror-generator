@@ -37,3 +37,31 @@ def download_repo_by_tag(owner_name: str, repo_name: str, archive_type: str = "t
             "file_name": f"{repo_name}-{tag}.{archive_type}"
         })
     return resource_list
+
+
+def get_single_package_from_release(owner_name: str, repo_name: str):
+    """
+    Get single package from GitHub release
+
+    This function will get release and download the package
+
+    This function is suitable for GitHub repositories that make releases and only one file in each release
+
+    :param owner_name: GitHub account name
+    :param repo_name: repository name, e.g. "alibaba/tengine"
+    :return: list of dict, each dict contains at least "url" and "file_name"
+    """
+    resource_list = []
+    url = f"https://api.github.com/repos/{owner_name}/{repo_name}/releases"
+    releases = httpx.get(url).json()
+    for release in releases:
+        if len(release["assets"]) == 1:
+            if any(w in release["assets"][0]["name"] for w in BLACKLIST_WORD):
+                continue
+            resource_list.append({
+                "url": release["assets"][0]["browser_download_url"],
+                "file_name": release["assets"][0]["name"]
+            })
+        else:
+            raise ValueError("More than one file in release")
+    return resource_list

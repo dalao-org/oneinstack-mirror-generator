@@ -1,6 +1,6 @@
 from utils import (curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python,
                    httpd, apr, imagemagick, openresty, memcached, lua_nginx_module, php_plugins, pip, tengine, xcache,
-                   boost, github)
+                   boost, github, pure_ftpd, htop, misc)
 import json
 import os
 
@@ -32,6 +32,16 @@ def main():
     resource_list += boost.make_cache()
     resource_list += github.download_repo_by_tag("openresty", "lua-resty-core",
                                                  "tar.gz", True)
+    resource_list += pure_ftpd.make_cache()
+    resource_list += htop.make_cache()
+    resource_list += github.get_single_package_from_release("jemalloc", "jemalloc")
+    resource_list += github.download_repo_by_tag("openresty", "lua-resty-lrucache",
+                                                 "tar.gz", True)
+    resource_list += github.download_repo_by_tag("openresty", "luajit2",
+                                                 "tar.gz", True)
+    resource_list += github.download_repo_by_tag("openresty", "lua-cjson",
+                                                 "tar.gz", True)
+    resource_list += misc.make_cache()
 
     resource_list += php_plugins.make_cache("APCU", "apcu")
     resource_list += php_plugins.make_cache("gmagick", "gmagick")
