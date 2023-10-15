@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 MAX_TRIES = 10
 ALLOWED_NUMBER_OF_VERSIONS = 3
+BLACKLIST_WORD = ["alpha", "beta", "rc", "test"]
 
 
 def make_cache(package_name: str, file_prefix: str) -> list:
@@ -14,6 +15,8 @@ def make_cache(package_name: str, file_prefix: str) -> list:
             soup = BeautifulSoup(httpx.get(url).text, "html.parser")
             for a in soup.find_all("a"):
                 if a.text.startswith(f"{file_prefix}-") and a.text.endswith(".tgz"):
+                    if any(word in a.text for word in BLACKLIST_WORD):
+                        continue
                     resource_list.append({
                         "version": a.text.replace(f"{file_prefix}-", "").replace(".tgz", ""),
                         "url": f"https://pecl.php.net" + a["href"] if a["href"].startswith("/") else a["href"],
