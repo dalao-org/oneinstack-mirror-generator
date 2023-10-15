@@ -12,6 +12,6 @@ def make_cache() -> list:
         tag_tar_gz = f"https://github.com/alibaba/tengine/archive/refs/tags/{tag}.tar.gz"
         resource_list.append({
             "url": tag_tar_gz,
-            "file_name": tag_tar_gz
+            "file_name": f"tengine-{tag}.tar.gz"
         })
     return resource_list
