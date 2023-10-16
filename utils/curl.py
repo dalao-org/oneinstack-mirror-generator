@@ -17,5 +17,9 @@ def make_cache() -> list:
             if ".tar.gz" in url:
                 if not url.startswith("https://") and not url.startswith("http://"):
                     url = "https://curl.se/" + url
-                version_list.append({"version": version_num, "url": url, "gpg": url + ".asc"})
+                version_list.append({
+                    "version": version_num,
+                    "url": url,
+                    "file_name": url.split("/")[-1],
+                    "gpg": url + ".asc"})
     return version_list

@@ -15,7 +15,7 @@ def nginx_version_handler(td: BeautifulSoup) -> dict:
         pgp = td.find("a", string="pgp")["href"]
         if pgp.startswith("/"):
             pgp = "https://nginx.org" + pgp
-        return {"version": latest_version, "url": url, "gpg": pgp}
+        return {"version": latest_version, "url": url, "gpg": pgp, "file_name": f"nginx-{latest_version}.tar.gz"}
     except AttributeError:
         return None
 

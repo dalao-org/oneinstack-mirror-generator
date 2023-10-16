@@ -13,6 +13,7 @@ def make_cache() -> list:
     for tag in tags:
         release_list.append({
             "version": tag,
-            "url": f"http://www.memcached.org/files/memcached-{tag}.tar.gz"
+            "url": f"http://www.memcached.org/files/memcached-{tag}.tar.gz",
+            "file_name": f"memcached-{tag}.tar.gz"
         })
     return release_list

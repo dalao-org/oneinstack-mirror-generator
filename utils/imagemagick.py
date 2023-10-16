@@ -12,5 +12,6 @@ def make_cache() -> list:
                 "version": a["href"].replace("ImageMagick-", "").replace(".tar.gz", ""),
                 "url": url + a["href"],
                 "gpg": url + a["href"] + ".asc",
+                "file_name": a["href"].split("/")[-1]
             })
     return resource_list

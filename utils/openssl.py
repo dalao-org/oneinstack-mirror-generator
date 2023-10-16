@@ -15,7 +15,8 @@ def make_cache():
                     "url": asset["browser_download_url"],
                     "sha256": asset["browser_download_url"]+".sha256",
                     "sha1": asset["browser_download_url"] + ".sha1",
-                    "pgp": asset["browser_download_url"]+".asc"
+                    "pgp": asset["browser_download_url"]+".asc",
+                    "file_name": asset["name"]
                 })
                 break
     return release_list

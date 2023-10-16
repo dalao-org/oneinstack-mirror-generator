@@ -12,5 +12,6 @@ def make_cache() -> list:
         release_list.append({
             "version": version,
             "url": package_url,
+            "file_name": f"setuptools-{version}.tar.gz",
         })
     return release_list

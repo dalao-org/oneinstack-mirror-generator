@@ -16,6 +16,6 @@ def make_cache() -> list:
         tag_tar_gz = f"https://github.com/lighttpd/xcache/archive/refs/tags/{tag}.tar.gz"
         resource_list.append({
             "url": tag_tar_gz,
-            "file_name": tag_tar_gz
+            "file_name": f"xcache-{tag}.tar.gz"
         })
     return resource_list

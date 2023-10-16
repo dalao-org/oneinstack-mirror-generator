@@ -1,7 +1,9 @@
+import time
+
 import httpx
 from bs4 import BeautifulSoup
 
-MAX_TRIES = 10
+MAX_TRIES = 50
 ALLOWED_NUMBER_OF_VERSIONS = 3
 BLACKLIST_WORD = ["alpha", "beta", "rc", "test"]
 
@@ -20,10 +22,12 @@ def make_cache(package_name: str, file_prefix: str) -> list:
                     resource_list.append({
                         "version": a.text.replace(f"{file_prefix}-", "").replace(".tgz", ""),
                         "url": f"https://pecl.php.net" + a["href"] if a["href"].startswith("/") else a["href"],
+                        "file_name": a.text
                     })
             return resource_list[:ALLOWED_NUMBER_OF_VERSIONS]
         except httpx.ReadTimeout:
             tried += 1
-            print(f"Retrying {tried}/{MAX_TRIES}")
+            print(f"Retrying to download {package_name}: {tried}/{MAX_TRIES}")
+            time.sleep(5)
     print(f"pcel.php.net is down. Failed to fetch {package_name}.")
     return []

@@ -17,5 +17,6 @@ def make_cache() -> list:
                     url = download_metadata["href"]
                     version = download_metadata.text.replace("phpMyAdmin-", "").replace("-all-languages.tar.gz", "")
                     sha256 = download_metadata["data-sha256"]
-                    release_list.append({"version": version, "url": url, "sha256": sha256})
+                    release_list.append({"version": version, "url": url, "sha256": sha256,
+                                         "file_name": url.split("/")[-1]})
     return release_list

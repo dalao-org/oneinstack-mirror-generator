@@ -14,4 +14,9 @@ def make_cache() -> list:
             break
     if not gpg:
         raise RuntimeError("No GPG signature found")
-    return [{"version": version, "url": package_url, "gpg": gpg}]
+    return [{
+        "version": version,
+        "url": package_url,
+        "gpg": gpg,
+        "file_name": f"fail2ban-{version}.tar.gz"
+    }]

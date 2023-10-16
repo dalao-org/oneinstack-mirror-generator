@@ -14,6 +14,7 @@ def make_cache() -> list:
     for tag in tags:
         release_list.append({
             "version": tag,
-            "url": f"https://github.com/openresty/lua-nginx-module/archive/refs/tags/{tag}.zip"
+            "url": f"https://github.com/openresty/lua-nginx-module/archive/refs/tags/{tag}.zip",
+            "file_name": f"lua-nginx-module-{tag}.zip"
         })
     return release_list

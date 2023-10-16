@@ -25,7 +25,7 @@ def make_cache() -> list:
                 hash_url = a["href"]
                 break
         release_list.append({
-            "package_name": package_name,
+            "file_name": package_name,
             "url": sub_url + hash_url + package_name
         })
     return release_list

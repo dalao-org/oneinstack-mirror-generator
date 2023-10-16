@@ -1,4 +1,5 @@
 import httpx
+import re
 
 BLACKLIST_WORD = ["rc", "beta", "alpha"]
 
@@ -65,3 +66,35 @@ def get_single_package_from_release(owner_name: str, repo_name: str):
         else:
             raise ValueError("More than one file in release")
     return resource_list
+
+
+def get_package_from_release_with_regular_expression(owner_name: str, repo_name: str, regex: str, max_asset: int = 0):
+    """
+    Get single package from GitHub release with regular expression
+
+    This function will get release and download the package
+
+    This function is suitable for GitHub repositories that make releases and only one file in each release
+
+    :param owner_name: GitHub account name
+    :param repo_name: repository name, e.g. "alibaba/tengine"
+    :param regex: regular expression to match file name
+    :param max_asset: Maximum number of assets to cache
+    :return: list of dict, each dict contains at least "url" and "file_name"
+    """
+    if regex is None:
+        raise ValueError("regex must be specified")
+    resource_list = []
+    url = f"https://api.github.com/repos/{owner_name}/{repo_name}/releases"
+    releases = httpx.get(url).json()
+    for release in releases:
+        for asset in release["assets"]:
+            if re.match(regex, asset["name"]):
+                resource_list.append({
+                    "url": asset["browser_download_url"],
+                    "file_name": asset["name"]
+                })
+    if max_asset > 0:
+        return resource_list[:max_asset]
+    else:
+        return resource_list

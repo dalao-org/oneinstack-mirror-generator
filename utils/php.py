@@ -16,7 +16,8 @@ def older_php_cache_maker() -> list:
                 url = release_bs.find("a")["href"]
                 if url.startswith("/"):
                     url = "https://www.php.net" + url
-                version_list.append({"version": version_num, "url": url, "sha256": sha256})
+                version_list.append({"version": version_num, "url": url, "sha256": sha256,
+                                     "file_name": url.split("/")[-1]})
     return version_list
 
 
@@ -34,7 +35,8 @@ def latest_php_cache_maker() -> list:
                 sha256 = resource.find("span", class_="sha256").text
                 if url.startswith("/"):
                     url = "https://www.php.net" + url
-                version_list.append({"version": version_num, "url": url, "sha256": sha256})
+                version_list.append({"version": version_num, "url": url, "sha256": sha256,
+                                     "file_name": url.split("/")[-1]})
     return version_list
 
 

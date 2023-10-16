@@ -41,6 +41,27 @@ def main():
                                                  "tar.gz", True)
     resource_list += github.download_repo_by_tag("openresty", "lua-cjson",
                                                  "tar.gz", True)
+    resource_list += github.get_package_from_release_with_regular_expression("gperftools",
+                                                                             "gperftools",
+                                                                             r"gperftools-\d+.\d+.tar.gz",
+                                                                             3)
+    resource_list += github.get_package_from_release_with_regular_expression("unicode-org",
+                                                                             "icu",
+                                                                             r"(icu4c-)[\d|\-|\_]+(src\.tgz)",
+                                                                             3)
+    # gdrive package is changed!!!
+    resource_list += github.get_package_from_release_with_regular_expression("glotlabs",
+                                                                             "gdrive",
+                                                                             r"linux",
+                                                                             1)
+    resource_list += github.get_package_from_release_with_regular_expression("nih-at",
+                                                                             "libzip",
+                                                                             r"\.tar\.gz",
+                                                                             5)
+    resource_list += github.get_package_from_release_with_regular_expression("jedisct1",
+                                                                             "libsodium",
+                                                                             r"\d+\.tar\.gz",
+                                                                             5)
     resource_list += misc.make_cache()
 
     resource_list += php_plugins.make_cache("APCU", "apcu")

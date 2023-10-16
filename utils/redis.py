@@ -20,5 +20,6 @@ def make_cache() -> list:
                 "version": version,
                 "sha256": sha256,
                 "url": url,
+                "file_name": url.split("/")[-1]
             })
     return release_list
