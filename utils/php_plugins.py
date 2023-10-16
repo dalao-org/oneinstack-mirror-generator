@@ -27,7 +27,7 @@ def make_cache(package_name: str, file_prefix: str) -> list:
             return resource_list[:ALLOWED_NUMBER_OF_VERSIONS]
         except httpx.ReadTimeout:
             tried += 1
-            print(f"Retrying to download {package_name}: {tried}/{MAX_TRIES}")
+            print(f"Retrying to download PHP plugin {package_name}: {tried}/{MAX_TRIES}")
             time.sleep(5)
     print(f"pcel.php.net is down. Failed to fetch {package_name}.")
     return []
