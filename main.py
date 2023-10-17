@@ -1,6 +1,6 @@
 from utils import (curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python,
                    httpd, apr, imagemagick, openresty, memcached, lua_nginx_module, php_plugins, pip, tengine, xcache,
-                   boost, github, pure_ftpd, htop, misc)
+                   boost, github, pure_ftpd, htop, misc, freetype, libiconv, bison)
 import json
 import os
 
@@ -62,6 +62,29 @@ def main():
                                                                              "libsodium",
                                                                              r"\d+\.tar\.gz",
                                                                              5)
+    # Name changed!!! Was argon2-20190702.tar.gz and 20190702.tar.gz
+    resource_list += github.download_repo_by_tag("P-H-C", "phc-winner-argon2",
+                                                 archive_type="tar.gz", filter_blacklist=True)
+    resource_list += freetype.make_cache()
+    resource_list += github.get_package_from_release_with_regular_expression("libevent",
+                                                                             "libevent",
+                                                                             r"\.tar\.gz$",
+                                                                             5)
+    resource_list += github.download_repo_by_tag("jokkedk", "webgrind",
+                                                 "zip", False)
+    # ngx_devel_kit name changed!!!
+    resource_list += github.download_repo_by_tag("vision5", "ngx_devel_kit",
+                                                 "tar.gz", False)
+    resource_list += github.get_package_from_release_with_regular_expression("kkos", "oniguruma",
+                                                                             r"\.tar\.gz$", 5)
+    resource_list += github.get_package_from_release_with_regular_expression("dropbox", "dbxcli",
+                                                                             r"dbxcli-linux-arm", 1)
+    resource_list += github.get_package_from_release_with_regular_expression("dropbox", "dbxcli",
+                                                                             r"dbxcli-linux-amd64", 1)
+    resource_list += bison.make_cache()
+
+    resource_list += libiconv.make_cache()
+
     resource_list += misc.make_cache()
 
     resource_list += php_plugins.make_cache("APCU", "apcu")
@@ -72,6 +95,7 @@ def main():
     resource_list += php_plugins.make_cache("swoole", "swoole")
     resource_list += php_plugins.make_cache("YAF", "yaf")
     resource_list += php_plugins.make_cache("xdebug", "xdebug")
+    resource_list += php_plugins.make_cache("mongo", "mongo")
     with open(r"./output/resources.json", "w+") as f:
         f.write(json.dumps(resource_list, indent=4))
 

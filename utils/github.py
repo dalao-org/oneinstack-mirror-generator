@@ -87,13 +87,16 @@ def get_package_from_release_with_regular_expression(owner_name: str, repo_name:
     resource_list = []
     url = f"https://api.github.com/repos/{owner_name}/{repo_name}/releases"
     releases = httpx.get(url).json()
-    for release in releases:
+    non_pre_release = [release for release in releases if not release["prerelease"]]
+    for release in non_pre_release:
         for asset in release["assets"]:
-            if re.match(regex, asset["name"]):
+            if re.search(regex, asset["name"]):
                 resource_list.append({
                     "url": asset["browser_download_url"],
                     "file_name": asset["name"]
                 })
+    if len(resource_list) == 0:
+        raise ValueError("No asset matches regex")
     if max_asset > 0:
         return resource_list[:max_asset]
     else:
