@@ -1,3 +1,5 @@
+from typing import Tuple, List, Dict, Any
+
 import httpx
 from bs4 import BeautifulSoup
 import re
@@ -20,8 +22,10 @@ def nginx_version_handler(td: BeautifulSoup) -> dict:
         return None
 
 
-def make_cache() -> list:
+def make_cache() -> tuple[list[dict], dict[str, str | Any]]:
     release_list = []
+    latest_meta = {"version_file_name": "nginx_ver"}
+
     url = "https://nginx.org/en/download.html"
     soup = BeautifulSoup(httpx.get(url).content, "html.parser")
 
@@ -32,6 +36,7 @@ def make_cache() -> list:
         package_info = nginx_version_handler(td)
         if package_info:
             latest_version = package_info
+            latest_meta["version"] = package_info["version"]
             break
     if latest_version:
         release_list.append(latest_version)
@@ -49,4 +54,4 @@ def make_cache() -> list:
                 release_list.append(package_info)
                 break
 
-    return release_list
+    return release_list, latest_meta

@@ -1,11 +1,15 @@
+from typing import Tuple, List, Dict, Any
+
 import httpx
 
 
 ALLOWED_NUMBER_OF_RELEASES = 3
 
 
-def make_cache() -> list:
+def make_cache() -> tuple[list[dict[str, str | Any]], dict[str, str | Any]]:
     release_list = []
+    latest_meta = {"version_file_name": "openresty_ver"}
+
     url = "https://api.github.com/repos/openresty/openresty/releases"
     response = httpx.get(url).json()
     non_pre_releases = [release for release in response if not release["prerelease"]]
@@ -17,4 +21,5 @@ def make_cache() -> list:
             "url": f"https://openresty.org/download/openresty-{release}.tar.gz",
             "pgp": f"https://openresty.org/download/openresty-{release}.tar.gz.asc"
         })
-    return release_list
+    latest_meta["version"] = release_list[0]["version"]
+    return release_list, latest_meta

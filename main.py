@@ -8,10 +8,16 @@ import os
 def main():
     os.makedirs("output", exist_ok=True)
     resource_list = []
+    latest_meta_list = []
+
     resource_list += curl.make_cache()
     resource_list += fail2ban.make_cache()
     resource_list += mysql.make_cache()
-    resource_list += nginx.make_cache()
+
+    nginx_output = nginx.make_cache()
+    resource_list += nginx_output[0]
+    latest_meta_list.append(nginx_output[1])
+
     resource_list += php.make_cache()
     resource_list += phpmyadmin.make_cache()
     resource_list += redis.make_cache()
@@ -23,11 +29,19 @@ def main():
     resource_list += httpd.make_cache()
     resource_list += apr.make_cache()
     resource_list += imagemagick.make_cache()
-    resource_list += openresty.make_cache()
+
+    openresty_output = openresty.make_cache()
+    resource_list += openresty_output[0]
+    latest_meta_list.append(openresty_output[1])
+
     resource_list += memcached.make_cache()
     resource_list += lua_nginx_module.make_cache()
     resource_list += pip.make_cache()
-    resource_list += tengine.make_cache()
+
+    tengine_output = tengine.make_cache()
+    resource_list += tengine_output[0]
+    latest_meta_list.append(tengine_output[1])
+
     resource_list += xcache.make_cache()
     resource_list += boost.make_cache()
     resource_list += openssl.make_cache()
@@ -126,6 +140,11 @@ def main():
     </html>
     """)
     redirect_rules_list.close()
+
+    # Generate suggest_versions.txt
+    with open(r"./output/suggest_versions.txt", "w+") as f:
+        for meta in latest_meta_list:
+            f.write(f"{meta['version_file_name']}={meta['version']}\n")
 
 
 if __name__ == "__main__":
