@@ -1,6 +1,6 @@
 from utils import (curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python,
                    httpd, apr, imagemagick, openresty, memcached, lua_nginx_module, php_plugins, pip, tengine, xcache,
-                   boost, github, pure_ftpd, htop, misc, freetype, libiconv, bison)
+                   boost, github, pure_ftpd, htop, misc, freetype, libiconv, bison, openssl)
 import json
 import os
 
@@ -30,6 +30,7 @@ def main():
     resource_list += tengine.make_cache()
     resource_list += xcache.make_cache()
     resource_list += boost.make_cache()
+    resource_list += openssl.make_cache()
     resource_list += github.download_repo_by_tag("openresty", "lua-resty-core",
                                                  "tar.gz", True)
     resource_list += pure_ftpd.make_cache()
