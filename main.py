@@ -79,41 +79,53 @@ def main():
         resource_list += openssl_output[0]
         latest_meta_list += openssl_output[1]
 
-        resource_list += github.download_repo_by_tag("openresty", "lua-resty-core",
-                                                     "tar.gz", True)
+        resource_list += github.download_repo_by_tag("openresty", "lua-resty-core", "tar.gz", True)
         resource_list += pure_ftpd.make_cache()
         resource_list += htop.make_cache()
         resource_list += github.get_single_package_from_release("jemalloc", "jemalloc")
-        resource_list += github.download_repo_by_tag("openresty", "lua-resty-lrucache",
-                                                     "tar.gz", True)
-        resource_list += github.download_repo_by_tag("openresty", "luajit2",
-                                                     "tar.gz", True)
-        resource_list += github.download_repo_by_tag("openresty", "lua-cjson",
-                                                     "tar.gz", True)
+        resource_list += github.download_repo_by_tag("openresty", "lua-resty-lrucache", "tar.gz", True)
+        resource_list += github.download_repo_by_tag("openresty", "luajit2", "tar.gz", True)
+        resource_list += github.download_repo_by_tag("openresty", "lua-cjson", "tar.gz", True)
         resource_list += github.get_package_from_release_with_regular_expression("gperftools",
                                                                                  "gperftools",
                                                                                  r"gperftools-\d+.\d+.tar.gz",
                                                                                  3)
-        resource_list += github.get_package_from_release_with_regular_expression("unicode-org",
-                                                                                 "icu",
-                                                                                 r"(icu4c-)[\d|\-|\_]+(src\.tgz)",
-                                                                                 3)
+
+        icu_output = github.get_package_from_release_with_regular_expression("unicode-org",
+                                                                             "icu",
+                                                                             r"(icu4c-)[\d|\-|\_]+(src\.tgz)",
+                                                                             3,
+                                                                             "icu4c")
+        resource_list += icu_output[0]
+        latest_meta_list.append(icu_output[1])
+
         # gdrive package is changed!!!
         resource_list += github.get_package_from_release_with_regular_expression("glotlabs",
                                                                                  "gdrive",
                                                                                  r"linux",
                                                                                  1)
-        resource_list += github.get_package_from_release_with_regular_expression("nih-at",
-                                                                                 "libzip",
-                                                                                 r"\.tar\.gz",
-                                                                                 5)
-        resource_list += github.get_package_from_release_with_regular_expression("jedisct1",
-                                                                                 "libsodium",
-                                                                                 r"\d+\.tar\.gz",
-                                                                                 5)
+        libzip_output = github.get_package_from_release_with_regular_expression("nih-at",
+                                                                                "libzip",
+                                                                                r"\.tar\.gz",
+                                                                                5,
+                                                                                "libzip_ver")
+        resource_list += libzip_output[0]
+        latest_meta_list.append(libzip_output[1])
+
+        libsodium_output = github.get_package_from_release_with_regular_expression("jedisct1",
+                                                                                   "libsodium",
+                                                                                   r"\d+\.tar\.gz",
+                                                                                   5,
+                                                                                   "libsodium_ver")
+        resource_list += libsodium_output[0]
+        latest_meta_list.append(libsodium_output[1])
+
         # Name changed!!! Was argon2-20190702.tar.gz and 20190702.tar.gz
-        resource_list += github.download_repo_by_tag("P-H-C", "phc-winner-argon2",
-                                                     archive_type="tar.gz", filter_blacklist=True)
+        argon2_output = github.download_repo_by_tag("P-H-C", "phc-winner-argon2",
+                                                    archive_type="tar.gz", filter_blacklist=True,
+                                                    latest_meta_name="argon2_ver")
+        resource_list += argon2_output[0]
+        latest_meta_list.append(argon2_output[1])
 
         freetype_output = freetype.make_cache()
         resource_list += freetype_output[0]
@@ -123,11 +135,9 @@ def main():
                                                                                  "libevent",
                                                                                  r"\.tar\.gz$",
                                                                                  5)
-        resource_list += github.download_repo_by_tag("jokkedk", "webgrind",
-                                                     "zip", False)
+        resource_list += github.download_repo_by_tag("jokkedk", "webgrind", "zip", False)
         # ngx_devel_kit name changed!!!
-        resource_list += github.download_repo_by_tag("vision5", "ngx_devel_kit",
-                                                     "tar.gz", False)
+        resource_list += github.download_repo_by_tag("vision5", "ngx_devel_kit", "tar.gz", False)
         resource_list += github.get_package_from_release_with_regular_expression("kkos", "oniguruma",
                                                                                  r"\.tar\.gz$", 5)
         resource_list += github.get_package_from_release_with_regular_expression("dropbox", "dbxcli",
