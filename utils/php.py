@@ -1,6 +1,8 @@
 import httpx
 from bs4 import BeautifulSoup
 
+ACCEPTED_VERSIONS = ["5.3", "5.4", "5.5", "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1", "8.2"]
+
 
 def older_php_cache_maker() -> list:
     version_list = []
@@ -40,5 +42,16 @@ def latest_php_cache_maker() -> list:
     return version_list
 
 
-def make_cache():
-    return latest_php_cache_maker() + older_php_cache_maker()
+def make_cache() -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    release_list = latest_php_cache_maker() + older_php_cache_maker()
+    latest_meta = []
+    for version in ACCEPTED_VERSIONS:
+        this_version_latest = [release for release in release_list if
+                               release["version"].startswith(version)][0]["version"]
+        latest_meta.append({"version_file_name": f"php{version.replace(".", "")}_ver",
+                            "version": this_version_latest})
+
+    sorted_release_list = sorted(release_list, key=lambda x: [int(c) for c in x["version"].split(".")])
+    sorted_release_list.reverse()
+
+    return release_list, latest_meta

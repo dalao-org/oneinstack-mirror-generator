@@ -1,5 +1,12 @@
-def make_cache() -> list:
+from typing import Tuple, List, Dict, Any
+
+
+def make_cache() -> tuple[list[dict[str, str | Any]], list[dict[str, str]]]:
     resource_list = []
+    latest_meta = [
+        {"version_file_name": "pcre_ver", "version": "8.45"},
+    ]
+
     url_list = ["https://www.sourceguardian.com/loaders/download/loaders.linux-x86_64.tar.gz",
                 "https://www.sourceguardian.com/loaders/download/loaders.linux-armhf.tar.gz",
                 "https://www.sourceguardian.com/loaders/download/loaders.linux-aarch64.tar.gz",
@@ -34,4 +41,4 @@ def make_cache() -> list:
             "url": url,
             "file_name": url.split("/")[-1]
         })
-    return resource_list
+    return resource_list, latest_meta

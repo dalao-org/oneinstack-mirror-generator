@@ -1,3 +1,5 @@
+from typing import Tuple, List, Dict
+
 import httpx
 from bs4 import BeautifulSoup
 
@@ -5,8 +7,10 @@ ALLOWED_NUMBER_OF_VERSIONS = 5
 BLACK_LIST_WORD = ["alpha", "beta", "deps", "rc"]
 
 
-def make_cache() -> list:
+def make_cache() -> tuple[list[dict[str, str]], dict[str, str]]:
     resource_list = []
+    latest_meta = {"version_file_name": "apache_ver"}
+
     url = "https://archive.apache.org/dist/httpd/"
     soup = BeautifulSoup(httpx.get(url).text, "html.parser")
     file_list = []
@@ -28,4 +32,5 @@ def make_cache() -> list:
                 "sha512": f"https://archive.apache.org/dist/httpd/httpd-{file}.tar.gz.sha512",
             }
         )
-    return resource_list
+    latest_meta["version"] = resource_list[0]["version"]
+    return resource_list, latest_meta

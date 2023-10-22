@@ -1,8 +1,9 @@
 import httpx
 
 
-def make_cache():
+def make_cache() -> tuple[list[dict[str, str]], list[dict[str, str]]]:
     release_list = []
+    latest_meta = [{"version_file_name": "openssl3_ver"}, {"version_file_name": "openssl11_ver"}]
 
     url = "https://api.github.com/repos/openssl/openssl/releases"
     non_pre_release = [r for r in httpx.get(url).json() if not r["prerelease"]]
@@ -19,4 +20,8 @@ def make_cache():
                     "file_name": asset["name"]
                 })
                 break
-    return release_list
+    version11_list = [r for r in release_list if r["version"].startswith("1.1")]
+    version3_list = [r for r in release_list if r["version"].startswith("3.")]
+    latest_meta[0]["version"] = version3_list[0]["version"]
+    latest_meta[1]["version"] = version11_list[0]["version"]
+    return release_list, latest_meta
