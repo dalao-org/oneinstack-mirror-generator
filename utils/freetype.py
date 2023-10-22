@@ -1,10 +1,14 @@
+from typing import Tuple, List, Dict, Any
+
 import httpx
 from bs4 import BeautifulSoup
 import re
 
 
-def make_cache() -> list:
+def make_cache() -> tuple[list[dict[str, str | Any]], dict[str, str | Any]]:
     resource_list = []
+    latest_meta = {"version_file_name": "freetype_ver"}
+
     url = "https://download.savannah.gnu.org/releases/freetype/"
     soup = BeautifulSoup(httpx.get(url).text, "html.parser")
     a_href_list = soup.find_all("a", href=True)
@@ -18,4 +22,5 @@ def make_cache() -> list:
                 "file_name": href,
                 "version": version
             })
-    return resource_list
+    latest_meta["version"] = resource_list[0]["version"]
+    return resource_list, latest_meta

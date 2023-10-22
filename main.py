@@ -14,7 +14,10 @@ def main():
         resource_list = []
         latest_meta_list = []
 
-        resource_list += curl.make_cache()
+        curl_output = curl.make_cache()
+        resource_list += curl_output[0]
+        latest_meta_list.append(curl_output[1])
+
         resource_list += fail2ban.make_cache()
 
         mysql_output = mysql.make_cache()
@@ -111,7 +114,11 @@ def main():
         # Name changed!!! Was argon2-20190702.tar.gz and 20190702.tar.gz
         resource_list += github.download_repo_by_tag("P-H-C", "phc-winner-argon2",
                                                      archive_type="tar.gz", filter_blacklist=True)
-        resource_list += freetype.make_cache()
+
+        freetype_output = freetype.make_cache()
+        resource_list += freetype_output[0]
+        latest_meta_list.append(freetype_output[1])
+
         resource_list += github.get_package_from_release_with_regular_expression("libevent",
                                                                                  "libevent",
                                                                                  r"\.tar\.gz$",
@@ -129,7 +136,9 @@ def main():
                                                                                  r"dbxcli-linux-amd64", 1)
         resource_list += bison.make_cache()
 
-        resource_list += libiconv.make_cache()
+        libiconv_output = libiconv.make_cache()
+        resource_list += libiconv_output[0]
+        latest_meta_list.append(libiconv_output[1])
 
         misc_output = misc.make_cache()
         resource_list += misc_output[0]

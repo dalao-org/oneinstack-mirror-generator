@@ -5,6 +5,9 @@ def make_cache() -> tuple[list[dict[str, str | Any]], list[dict[str, str]]]:
     resource_list = []
     latest_meta = [
         {"version_file_name": "pcre_ver", "version": "8.45"},
+        {"version_file_name": "libmcrypt_ver", "version": "2.5.8"},
+        {"version_file_name": "mcrypt_ver", "version": "2.6.8"},
+        {"version_file_name": "mhash_ver", "version": "0.9.9.9"},
     ]
 
     url_list = ["https://www.sourceguardian.com/loaders/download/loaders.linux-x86_64.tar.gz",
