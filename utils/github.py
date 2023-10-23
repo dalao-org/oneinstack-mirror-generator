@@ -41,6 +41,7 @@ def download_repo_by_tag(owner_name: str, repo_name: str, archive_type: str = "t
             "file_name": f"{repo_name}-{tag}.{archive_type}",
             "version": tag
         })
+    resource_list.reverse()
     if latest_meta_name:
         latest_meta = {"version_file_name": latest_meta_name, "version": resource_list[0]["version"]}
     else:
@@ -116,7 +117,7 @@ def get_package_from_release_with_regular_expression(owner_name: str, repo_name:
     if len(resource_list) == 0:
         raise ValueError("No asset matches regex")
 
-    if not latest_meta_name:
+    if latest_meta_name:
         latest_meta = {"version_file_name": latest_meta_name, "version": resource_list[0]["version"]}
     else:
         latest_meta = None
