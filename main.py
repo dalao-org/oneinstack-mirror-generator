@@ -266,6 +266,9 @@ def main():
             file_name = resource["url"].split("/")[-1]
         rule = f"/src/{file_name} {resource["url"]} 301"
         redirect_rules_file.write(rule + "\n")
+        # Temporary fix for #4
+        rule = f"/oneinstack/src/{file_name} {resource["url"]} 301"
+        redirect_rules_file.write(rule + "\n")
         redirect_rules_html.write(f'    <a href="{resource["url"]}">{file_name}</a><br>\n')
     redirect_rules_file.close()
     redirect_rules_html.write("""</body>
