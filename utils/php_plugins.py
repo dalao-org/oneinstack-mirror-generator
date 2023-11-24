@@ -1,6 +1,6 @@
 import time
 from typing import Tuple, List, Dict, Any
-
+from base_logger import logger
 import httpx
 from bs4 import BeautifulSoup
 
@@ -34,7 +34,10 @@ def make_cache(package_name: str, file_prefix: str, allow_unstable_version: bool
             return resource_list, latest_meta
         except httpx.ReadTimeout:
             tried += 1
-            print(f"Retrying to download PHP plugin {package_name}: {tried}/{MAX_TRIES}")
-            time.sleep(5)
-    print(f"pcel.php.net is down. Failed to fetch {package_name}.")
+            logger.exception(f"Retrying to download PHP plugin {package_name}: {tried}/{MAX_TRIES}")
+            if tried >= 0.6 * MAX_TRIES:
+                time.sleep(30)
+            else:
+                time.sleep(5)
+    logger.error(f"pcel.php.net is down. Failed to fetch {package_name}.")
     return []

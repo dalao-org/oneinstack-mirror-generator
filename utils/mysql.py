@@ -1,5 +1,6 @@
 import httpx
 from bs4 import BeautifulSoup
+from base_logger import logger
 
 BLACK_LIST_KEYWORD = ["arm", "32-bit", "test", "minimal", "ia-64", "debug"]
 ACCEPTED_VERSIONS = ["5.5", "5.6", "5.7", "8.0"]
@@ -23,7 +24,7 @@ def generic_mysql_package_handler(url) -> dict:
         try:
             gpg = next_line[1].find("a", class_="signature")["href"]
         except TypeError:
-            print("No GPG signature found: ", file_name, ". Skipped.")
+            logger.info("No GPG signature found: ", file_name, ". Skipped.")
             continue
         return {
             "url": ("https://downloads.mysql.com" + url if url.startswith("/") else url),
