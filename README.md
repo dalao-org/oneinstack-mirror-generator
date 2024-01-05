@@ -71,6 +71,12 @@ Status column indicates test status of the package on oneinstack.
 |    xdebug    |  [pecl.php.net](https://pecl.php.net/package/xdebug)  | ⚠ Not Tested |
 |    mongo     |  [pecl.php.net](https://pecl.php.net/package/mongo)   | ⚠ Not Tested |
 
+### Misc
+
+|       Package Name       |                Source                 |    Status    |
+|:------------------------:|:-------------------------------------:|:------------:|
+| fpm-race-condition.patch | https://bugs.php.net/bug.php?id=65398 | ⚠ Not Tested |
+
 
 ## Unsupported Packages
 
@@ -88,7 +94,6 @@ Status column indicates test status of the package on oneinstack.
 |                  autoconf-2.69-12.2.noarch.rpm                  |
 |                          cos_client.py                          |
 |      debian_patches_disable_SSLv2_for_openssl_1_0_0.patch       |
-|                    fpm-race-condition.patch                     |
 |                    libiconv-glibc-2.16.patch                    |
 |                    libmemcached-build.patch                     |
 |               libwebp-0.3.1-2.el6.remi.x86_64.rpm               |

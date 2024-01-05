@@ -1,6 +1,6 @@
 from utils import (curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python,
                    httpd, apr, imagemagick, openresty, memcached, lua_nginx_module, php_plugins, pip, tengine, xcache,
-                   boost, github, pure_ftpd, htop, misc, freetype, libiconv, bison, openssl)
+                   boost, github, pure_ftpd, htop, misc, freetype, libiconv, bison, openssl, php_patches)
 import json
 import os
 import datetime
@@ -10,7 +10,7 @@ from base_logger import logger
 def main():
     mode = os.environ.get("MODE", "PROD")
     if mode == "PROD":
-        os.makedirs("output", exist_ok=True)
+        os.makedirs("output/src", exist_ok=True)
         resource_list = []
         latest_meta_list = []
 
@@ -222,6 +222,8 @@ def main():
         resource_list += pecl_mongo_output[0]
         latest_meta_list.append(pecl_mongo_output[1])
 
+        resource_list += php_patches.make_cache()
+
         # Older versions of PHP plugins
         latest_meta_list += [
             {"version_file_name": "apcu_oldver", "version": "4.0.11"},
@@ -266,8 +268,9 @@ def main():
             file_name = resource['file_name']
         else:
             file_name = resource["url"].split("/")[-1]
-        rule = f"/src/{file_name} {resource["url"]} 301"
-        redirect_rules_file.write(rule + "\n")
+        if resource["url"].startswith("http"):
+            rule = f"/src/{file_name} {resource["url"]} 301"
+            redirect_rules_file.write(rule + "\n")
         # Temporary fix for #4
         rule = f"/oneinstack/src/{file_name} {resource["url"]} 301"
         redirect_rules_file.write(rule + "\n")
