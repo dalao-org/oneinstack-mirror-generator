@@ -1,6 +1,6 @@
 from utils import (curl, fail2ban, mysql, nginx, php, phpmyadmin, redis, cacert, acme_sh, nghttp2, postgresql, python,
                    httpd, apr, imagemagick, openresty, memcached, lua_nginx_module, php_plugins, pip, tengine, xcache,
-                   boost, github, pure_ftpd, htop, misc, freetype, libiconv, bison, openssl, php_patches)
+                   boost, github, pure_ftpd, htop, misc, freetype, libiconv, bison, openssl, php_patches, mariadb)
 import json
 import os
 import datetime
@@ -176,6 +176,10 @@ def main():
         misc_output = misc.make_cache()
         resource_list += misc_output[0]
         latest_meta_list += misc_output[1]
+
+        mariadb_output = mariadb.make_cache()
+        resource_list += mariadb_output[0]
+        latest_meta_list += mariadb_output[1]
 
         apcu_output = php_plugins.make_cache("APCU", "apcu",
                                              False, "apcu_ver")
