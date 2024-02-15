@@ -197,6 +197,12 @@ def main():
                                                     archive_type="tar.gz", filter_blacklist=True,
                                                     latest_meta_name="argon2_ver")
         resource_list += argon2_output[0]
+        argon2_fix_list = []
+        for data in argon2_output[0]:
+            if "phc-winner-argon2" in data["file_name"]:
+                new_file_name = data["file_name"].replace("phc-winner-argon2", "argon2")
+                argon2_fix_list.append({"file_name": new_file_name, "url": data["url"], "version": data["version"]})
+        resource_list += argon2_fix_list
         latest_meta_list.append(argon2_output[1])
 
         freetype_output = freetype.make_cache()
