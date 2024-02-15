@@ -34,7 +34,7 @@ def make_cache() -> tuple[list[dict[str, str | Any]], list[dict[str, str]]]:
                 # ez_setup.py is maintained officially
                 "https://bootstrap.pypa.io/ez_setup.py",
                 # start-stop-daemon.c last update in 2017
-                "https://raw.githubusercontent.com/daleobrien/start-stop-daemon/master/start-stop-daemon.c"
+                "https://raw.githubusercontent.com/daleobrien/start-stop-daemon/master/start-stop-daemon.c",
                 # eaccelerator last update in 2010
                 "https://src.fedoraproject.org/repo/pkgs/php-eaccelerator/eaccelerator-0.9.6.1.tar.bz2/32ccd838e06ef5613c2610c1c65ed228/eaccelerator-0.9.6.1.tar.bz2",
                 # mod_remoteip.c last update in 2016
