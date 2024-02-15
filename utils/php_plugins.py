@@ -36,14 +36,7 @@ def make_cache(package_name: str, file_prefix: str, allow_unstable_version: bool
             else:
                 latest_meta = None
             return resource_list, latest_meta
-        except httpx.ReadTimeout:
-            tried += 1
-            logger.exception(f"Retrying to download PHP plugin {package_name}: {tried}/{MAX_TRIES}")
-            if tried >= 0.6 * MAX_TRIES:
-                time.sleep(30)
-            else:
-                time.sleep(5)
-        except httpx.RemoteProtocolError:
+        except (httpx.ReadTimeout, httpx.RemoteProtocolError, httpx.ConnectTimeout, httpx.ConnectError):
             tried += 1
             logger.exception(f"Retrying to download PHP plugin {package_name}: {tried}/{MAX_TRIES}")
             if tried >= 0.6 * MAX_TRIES:
