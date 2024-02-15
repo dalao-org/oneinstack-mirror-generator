@@ -14,11 +14,12 @@ def make_online_resource():
         latest_meta_list = json.loads(f.read())
 
     dynamic_redirect_rules_file = open(r"./output/_redirects", "w+")
-    dynamic_redirect_rules_file.writelines(["/src/*.tar.gz /oneinstack/src/:splat 301\n",
-                                            "/src/*.tar.bz2 /oneinstack/src/:splat 301\n",
-                                            "/src/*.tar.gz.asc /oneinstack/src/:splat 301\n",
-                                            "/src/*.tgz /oneinstack/src/:splat 301\n",
-                                            "/src/*.rar /oneinstack/src/:splat 301\n"])
+    dynamic_redirect_rules_file.writelines(["/src/*.tar.gz /oneinstack/src/:splat.tar.gz 301\n",
+                                            "/src/*.tar.bz2 /oneinstack/src/:splat.tar.bz2 301\n",
+                                            "/src/*.tar.gz.asc /oneinstack/src/:splat.tar.gz.asc 301\n",
+                                            "/src/*.tgz /oneinstack/src/:splat.tgz 301\n",
+                                            "/src/*.zip /oneinstack/src/:splat.zip 301\n",
+                                            "/src/*.rar /oneinstack/src/:splat.rar 301\n"])
     redirect_rules_html = open(r"./output/index.html", "w+")
     redirect_rules_html.write(f"""<!DOCTYPE html>
     <html>
