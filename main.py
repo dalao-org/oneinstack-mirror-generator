@@ -36,7 +36,7 @@ def make_online_resource():
         else:
             file_name = resource["url"].split("/")[-1]
         if resource["url"].startswith("http"):
-            rule = f"/oneinstack/src/{file_name} {resource["url"]} 301"
+            rule = f"/oneinstack/src/{file_name} {resource["url"].replace("http://", "https://")} 301"
             dynamic_redirect_rules_file.write(rule + "\n")
         redirect_rules_html.write(f'    <a href="{resource["url"]}">{file_name}</a><br>\n')
     dynamic_redirect_rules_file.writelines(["/src/*.tar.gz /oneinstack/src/:splat.tar.gz 301\n",
