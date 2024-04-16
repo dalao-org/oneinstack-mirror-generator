@@ -1,6 +1,5 @@
-import httpx
 from bs4 import BeautifulSoup
-from utils import httpx_get_request
+from http_utils import httpx_get_request
 
 
 def make_cache() -> list:
