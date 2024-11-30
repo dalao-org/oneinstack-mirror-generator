@@ -39,6 +39,14 @@ def make_online_resource():
             rule = f"/oneinstack/src/{file_name} {resource["url"].replace("http://", "https://")} 301"
             dynamic_redirect_rules_file.write(rule + "\n")
         redirect_rules_html.write(f'    <a href="{resource["url"]}">{file_name}</a><br>\n')
+        if "mariadb" in file_name:
+            version_folder_name = file_name.replace("-linux-systemd-x86_64.tar.gz", "")
+            os.makedirs(f"output/src/mariadb/{version_folder_name}/bintar-linux-systemd-x86_64/", exist_ok=True)
+            with open(f"output/src/mariadb/{version_folder_name}/bintar-linux-systemd-x86_64/md5sums.txt", "w+") as f:
+                f.write(f"{resource['md5']}  {file_name}\n")
+            mariadb_redirect_rule = (f"/oneinstack/src/mariadb/{version_folder_name}/bintar-linux-systemd-x86_64"
+                                     f"/{file_name} {resource["url"].replace("http://", "https://")} 301")
+            dynamic_redirect_rules_file.write(mariadb_redirect_rule + "\n")
     dynamic_redirect_rules_file.writelines(["/src/*.tar.gz /oneinstack/src/:splat.tar.gz 301\n",
                                             "/src/*.tar.bz2 /oneinstack/src/:splat.tar.bz2 301\n",
                                             "/src/*.tar.gz.asc /oneinstack/src/:splat.tar.gz.asc 301\n",
